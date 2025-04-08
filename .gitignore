@@ -1,0 +1,27 @@
+# Python 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 虚拟环境（如果有）
+venv/
+env/
+
+# 编辑器相关
+.idea/
+.vscode/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+
+# 不同步 .env 文件（敏感信息）
+.env
+
+# PyCharm 的 workspace 文件（可选）
+*.iml
+
+test.py
