@@ -1,5 +1,6 @@
 import requests
 import yaml
+from my_mcp.mcp_invoker import set_tool_router
 
 
 def load_manifest(server_url: str) -> dict:
@@ -27,13 +28,19 @@ def manifest_to_tool_function(manifest: dict) -> list:
 
 
 def load_all_mcp_tools(yaml_path: str = "./config/mcp_servers.yaml") -> list:
-    tools = []
+    tools, router = [], {}
     with open(yaml_path, "r") as f:
         servers = yaml.safe_load(f)
     for server in servers:
         manifest = load_manifest(server["url"])
+        for cap in manifest.get("capabilities", []):
+            router[cap["name"]] = {
+                "url": server["url"],
+                "endpoint": cap["endpoint"]
+            }
         server_tools = manifest_to_tool_function(manifest)
         tools.extend(server_tools)
+    set_tool_router(router)
     return tools
 
 if __name__ == "__main__":

@@ -1,6 +1,10 @@
 import asyncio
+import json
 import sys
 import os
+
+from my_mcp.mcp_invoker import call_tool
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from coagent.agents import ChatMessage
@@ -17,11 +21,13 @@ async def main(translator):
 
         result = await translator.run(
             ChatMessage(role="user", content="打个招呼").encode(),
-            stream=True,
+            stream=False,
         )
-        async for chunk in result:
-            msg = ChatMessage.decode(chunk)
-            print(msg.content, end="", flush=True)
+        msg = ChatMessage.decode(result)
+        msg_dic = json.loads(msg.content)
+        resp = call_tool(msg_dic.get('tool_name', {}), msg_dic.get('parameters', {}))
+        print(resp)
+
 
 
 if __name__ == "__main__":
