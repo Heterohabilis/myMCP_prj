@@ -5,7 +5,7 @@ from coagent.agents import ModelClient
 NONE = "None"
 
 def load_model_config(model_name: str) -> dict:
-    with open("../config/models.yaml", "r", encoding="utf-8") as f:
+    with open("./config/models.yaml", "r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
 
     if model_name not in config:
@@ -22,7 +22,7 @@ from coagent.agents import ModelClient
 
 
 def load_model_config(model_name: str) -> dict:
-    with open("../config/models.yaml", "r", encoding="utf-8") as f:
+    with open("./config/models.yaml", "r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
 
     if model_name not in config:

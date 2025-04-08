@@ -1,12 +1,10 @@
 # agent/model_router.py
 
-
-from coagent.agents import ChatAgent, ModelClient, ChatMessage
+from coagent.agents import ChatAgent, ChatMessage
 from coagent.core import AgentSpec, new, set_stderr_logger
 
-
-from client_builder import build_model_client
-from prompt import get_system_prompt
+from agent.client_builder import build_model_client
+from agent.prompt import get_system_prompt
 
 
 def build_agent(model_name: str) -> AgentSpec:
@@ -27,4 +25,5 @@ def build_agent(model_name: str) -> AgentSpec:
     )
 
     return agent
+
 

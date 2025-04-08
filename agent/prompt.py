@@ -11,8 +11,13 @@ When using a tool, you must:
     "param2": "value2"
   }
 }
-Do not hallucinate. Ask clarifying questions when needed.
+Do not hallucinate. [Only] return the JSON form Ask clarifying questions when needed.TOOLS:
 """
 
+from my_mcp.manifest_loader import load_all_mcp_tools
 def get_system_prompt():
-    return PROMPT
+    tools = (str)(load_all_mcp_tools())
+    return PROMPT+' '+tools
+
+if __name__ == "__main__":
+    print(get_system_prompt())
