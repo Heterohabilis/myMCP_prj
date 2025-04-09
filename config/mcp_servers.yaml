@@ -1,2 +1,8 @@
 - name: hello_world
+  url: http://192.168.1.167:8000
+
+- name: wr
   url: http://localhost:8000
+
+- name: chrome
+  url: http://localhost:1509

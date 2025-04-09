@@ -1,4 +1,3 @@
-# hello_world_server.py
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
@@ -11,17 +10,26 @@ def manifest():
         "capabilities": [
             {
                 "name": "hello",
-                "description": "Returns hello",
+                "description": "Greets the user with the given name",
                 "endpoint": "/hello",
                 "method": "POST",
+                "parameters": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name to greet"
+                    }
+                },
+                "required": ["name"]
             }
         ]
     })
 
-@app.route("/hello", methods=["POST"])
+@app.route("/call", methods=["POST"])
 def hello():
-    data = request.json
-    name = data.get("name", "Terry")
+    data = request.json or {}
+    name = data.get("name")
+    if not name:
+        return jsonify({"error": "Missing required parameter: name"}), 400
     return jsonify({"message": f"Hello, {name}!"})
 
 if __name__ == "__main__":

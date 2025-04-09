@@ -20,13 +20,16 @@ async def main(translator):
         await runtime.register(translator)
 
         result = await translator.run(
-            ChatMessage(role="user", content="打个招呼").encode(),
+            ChatMessage(role="user", content="自主查询M4A3E2和M4A3E8区别的资料并[用工具]将其写入/home/cybercricetus/Downloads/test.txt").encode(),
             stream=False,
         )
         msg = ChatMessage.decode(result)
-        msg_dic = json.loads(msg.content)
-        resp = call_tool(msg_dic.get('tool_name', {}), msg_dic.get('parameters', {}))
-        print(resp)
+        try:
+            msg_dic = json.loads(msg.content)
+            resp = call_tool(msg_dic.get('tool_name', {}), msg_dic.get('parameters', {}))
+            print(resp)
+        except Exception as e:
+            print(msg.content)
 
 
 

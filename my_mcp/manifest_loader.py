@@ -33,13 +33,11 @@ def load_all_mcp_tools(yaml_path: str = "./config/mcp_servers.yaml") -> list:
         servers = yaml.safe_load(f)
     for server in servers:
         manifest = load_manifest(server["url"])
-        for cap in manifest.get("capabilities", []):
-            router[cap["name"]] = {
-                "url": server["url"],
-                "endpoint": cap["endpoint"]
-            }
-        server_tools = manifest_to_tool_function(manifest)
-        tools.extend(server_tools)
+        tools.append(manifest)
+        router[manifest["name"]] = {
+            "url": server["url"],
+        }
+        # server_tools = manifest_to_tool_function(manifest)
     set_tool_router(router)
     return tools
 
