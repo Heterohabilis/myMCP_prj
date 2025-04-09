@@ -49,7 +49,7 @@ def call():
             ["bash", "-c", commands],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=10,
+            timeout=1000,
             text=True,
         )
 

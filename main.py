@@ -34,7 +34,9 @@ async def agent_start(translator):
                 if "tool_name" in tool_call and "parameters" in tool_call:
                     tool_call = json.loads(extract_json_block(tool_call))
                     result = call_tool(tool_call["tool_name"], tool_call["parameters"])
-                    print("🛠️ result：", result)
+                    print(f"return code: {result['returncode']}")
+                    if(len(result['stderr'])): print(f"stderr: {result['stderr']}")
+                    if(len(result['stdout'])): print(f"stdout: {result['stdout']}")
                     print("🤖", "done")
 
                     history.append(msg)
