@@ -10,7 +10,9 @@ DESCRIPTION = ("Accepts user intent and runs bash commands accordingly. "
                " executable, multi-line bash script string inside the 'commands' field. "
                "The script must not include any 'sudo' commands, "
                "and must be syntactically valid and ready to execute in a non-root environment. "
-               "Commands should be separated by line breaks if multiple lines are needed.")
+               "Commands should be separated by line breaks if multiple lines are needed."
+               "Uses heredoc (cat <<EOF > filename) to write source code when needed"
+               )
 
 
 @app.route("/manifest", methods=["GET"])
