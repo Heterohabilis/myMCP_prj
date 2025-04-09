@@ -54,6 +54,8 @@ async def agent_start(translator):
 
             except json.JSONDecodeError:
                 history.append(msg)
+            except Exception as e:
+                print("🤖", e)
 
 
 async def main():
