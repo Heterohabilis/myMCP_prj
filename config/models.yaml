@@ -6,6 +6,12 @@ gpt-4o-mini:
   api_key_env: OPENAI_API_KEY
   base_url: https://api.openai.com/v1
 
+gpt-4o:
+  provider: openai
+  model: gpt-4o
+  api_key_env: OPENAI_API_KEY
+  base_url: https://api.openai.com/v1
+
 deepseek-chat:
   provider: deepseek
   model: deepseek/deepseek-chat

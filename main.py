@@ -7,7 +7,7 @@ from my_mcp.mcp_invoker import call_tool
 from utils.json_cleaner import extract_json_block
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-MODEL = "gpt-4o-mini"
+MODEL = "deepseek-chat"
 
 from coagent.agents import ChatMessage
 from coagent.core import set_stderr_logger
