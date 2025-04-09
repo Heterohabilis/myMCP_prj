@@ -5,6 +5,7 @@ import os
 
 from my_mcp.mcp_invoker import call_tool
 from utils.json_cleaner import extract_json_block
+from utils.ring_memo import naive_memo
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 MODEL = "deepseek-chat"
@@ -17,7 +18,7 @@ from agent.model_router import build_agent
 
 
 async def agent_start(translator):
-    history = []
+    memo = naive_memo(n=50)
     print("Agent is ready; input 'exit' to quit")
 
     async with LocalRuntime() as runtime:
@@ -27,34 +28,38 @@ async def agent_start(translator):
             if user_input.lower() in {"exit", "quit"}:
                 print("👋 Bye！")
                 break
-            history.append(ChatMessage(role="user", content=user_input))
-            response = await translator.run(history[-1].encode(), stream=False)
+
+            # 将历史和当前输入组合发给 agent
+            context_prompt = str(memo) + "\nuser: " + user_input
+            response = await translator.run(
+                ChatMessage(role="user", content=context_prompt).encode(),
+                stream=False
+            )
             msg = ChatMessage.decode(response)
+
             try:
                 tool_call = msg.content
                 if "tool_name" in tool_call and "parameters" in tool_call:
                     tool_call = json.loads(extract_json_block(tool_call))
                     result = call_tool(tool_call["tool_name"], tool_call["parameters"])
                     print(f"return code: {result['returncode']}")
-                    if(len(result['stderr'])): print(f"stderr: {result['stderr']}")
-                    if(len(result['stdout'])): print(f"stdout: {result['stdout']}")
+                    if len(result['stderr']):
+                        print(f"stderr: {result['stderr']}")
+                    if len(result['stdout']):
+                        print(f"stdout: {result['stdout']}")
                     print("🤖", "done")
 
-                    history.append(msg)
-                    history.append(ChatMessage(
-                        role="tool",
-                        content=json.dumps({
-                            "tool_name": tool_call["tool_name"],
-                            "result": result
-                        }, ensure_ascii=False)
-                    ))
+                    memo.add(user_input, json.dumps({
+                        "tool_name": tool_call["tool_name"],
+                        "result": result
+                    }, ensure_ascii=False))
 
                 else:
                     print("🤖", msg.content)
-                    history.append(msg)
+                    memo.add(user_input, msg.content)
 
             except json.JSONDecodeError:
-                history.append(msg)
+                memo.add(user_input, msg.content)
             except Exception as e:
                 print("🤖", e)
 

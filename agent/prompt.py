@@ -15,10 +15,13 @@ Do NOT include any extra text. Do NOT hallucinate tools. Ask clarifying question
 Remember: If the user says "save the previous response", you must treat your own last reply as the content to save, and pass it to the appropriate tool (e.g., file_io).
 """
 
+TOOLS = ""
+
 from my_mcp.manifest_loader import load_all_mcp_tools
 def get_system_prompt():
-    tools = (str)(load_all_mcp_tools())
-    return PROMPT+' '+tools
+    global TOOLS
+    TOOLS = (str)(load_all_mcp_tools())
+    return PROMPT+' '+TOOLS
 
 if __name__ == "__main__":
     print(get_system_prompt())
