@@ -8,9 +8,9 @@ gpt-4o-mini:
 
 deepseek-chat:
   provider: deepseek
-  model: deepseek-chat
+  model: deepseek/deepseek-chat
   api_key_env: DEEPSEEK_API_KEY
-  base_url: https://api.deepseek.com/v1
+  base_url: https://api.deepseek.com
 
 claude-3-opus:
   provider: anthropic

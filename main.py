@@ -7,6 +7,7 @@ from my_mcp.mcp_invoker import call_tool
 from utils.json_cleaner import extract_json_block
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+MODEL = "gpt-4o-mini"
 
 from coagent.agents import ChatMessage
 from coagent.core import set_stderr_logger
@@ -60,7 +61,7 @@ async def agent_start(translator):
 
 async def main():
     set_stderr_logger()
-    translator = build_agent("gpt-4o-mini")
+    translator = build_agent(MODEL)
     await agent_start(translator)
 
 
