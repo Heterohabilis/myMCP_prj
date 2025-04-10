@@ -18,11 +18,12 @@ DESCRIPTION = ("Accepts user intent and runs bash commands accordingly. "
 @app.route("/manifest", methods=["GET"])
 def manifest():
     return jsonify({
-        "name": "bash",
-        "capabilities": [
-            {
-                "description": DESCRIPTION,
-                "parameters": {
+        "tools": [{
+            "tool": "run_bash_script",
+            "description": DESCRIPTION,
+            "inputSchema": {
+                "type": "object",
+                "properties": {
                     "commands": {
                         "type": "string",
                         "description": "The bash commands to run"
@@ -30,7 +31,7 @@ def manifest():
                 },
                 "required": ["commands"]
             }
-        ]
+        }]
     })
 
 @app.route("/call", methods=["POST"])

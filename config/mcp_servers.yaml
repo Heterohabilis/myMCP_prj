@@ -1,3 +1,15 @@
-- name: u_bash
+- name: mcp-time
+  command: python
+  args: ["-m", "mcp_server_time", "--local-timezone=America/New_York"]
+
+- name: bash_runner
   url: http://127.0.0.1:1510
 
+- name: git
+  command: uv
+  args: [
+      "--directory",
+      "/home/cybercricetus/Downloads/servers/src/git",
+      "run",
+      "mcp-server-git"
+    ]

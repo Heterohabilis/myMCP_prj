@@ -1,18 +1,18 @@
 # agent/model_router.py
 
-from coagent.agents import ChatAgent, ChatMessage
-from coagent.core import AgentSpec, new, set_stderr_logger
+from coagent.agents import ChatAgent
+from coagent.core import AgentSpec, new
 
 from agent.client_builder import build_model_client
 from agent.prompt import get_system_prompt
 
 
-def build_agent(model_name: str) -> AgentSpec:
+async def build_agent(model_name: str) -> AgentSpec:
     # create ModelClient
     client = build_model_client(model_name)
 
     # load prompt
-    system_prompt = get_system_prompt()
+    system_prompt = await get_system_prompt()
 
     # create agent
     agent = AgentSpec(

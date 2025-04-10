@@ -1,5 +1,8 @@
+
+from mcp_com.communication import manifest_loader
+
 PROMPT = """
-You are a tool-using assistant. You must decide whether to respond directly or call a tool.
+You are an smart assistant. You must decide whether to respond directly without a tool or call a tool.
 When calling a tool:
 1. Choose the correct tool name;
 2. Fill in all required parameters accurately;
@@ -12,15 +15,17 @@ When calling a tool:
   }
 }
 Do NOT include any extra text. Do NOT hallucinate tools. Ask clarifying questions if needed.
-Remember: If the user says "save the previous response", you must treat your own last reply as the content to save, and pass it to the appropriate tool (e.g., file_io).
+Remember: If the user says "save the previous response", you must treat your own last reply as the content to save, and pass it to the appropriate tool.
 """
 
 TOOLS = ""
 
-from my_mcp.manifest_loader import load_all_mcp_tools
-def get_system_prompt():
+CLEAN = "based on the previous question and the raw response, extract useful info and compile it to a sentence: "
+
+async def get_system_prompt():
     global TOOLS
-    TOOLS = (str)(load_all_mcp_tools())
+    _ = await manifest_loader()
+    TOOLS = str(_)
     return PROMPT+' '+TOOLS
 
 if __name__ == "__main__":

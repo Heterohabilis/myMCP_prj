@@ -3,7 +3,8 @@ import json
 import sys
 import os
 
-from my_mcp.mcp_invoker import call_tool
+from agent.prompt import CLEAN
+from mcp_com.communication import call_tool
 from utils.json_cleaner import extract_json_block
 from utils.ring_memo import naive_memo
 
@@ -17,21 +18,21 @@ from coagent.runtimes import LocalRuntime
 from agent.model_router import build_agent
 
 
-async def agent_start(translator):
+async def agent_start(agent):
     memo = naive_memo(n=50)
     print("Agent is ready; input 'exit' to quit")
 
     async with LocalRuntime() as runtime:
-        await runtime.register(translator)
+        await runtime.register(agent)
         while True:
             user_input = input("You：").strip()
             if user_input.lower() in {"exit", "quit"}:
                 print("👋 Bye！")
                 break
 
-            # 将历史和当前输入组合发给 agent
+
             context_prompt = str(memo) + "\nuser: " + user_input
-            response = await translator.run(
+            response = await agent.run(
                 ChatMessage(role="user", content=context_prompt).encode(),
                 stream=False
             )
@@ -41,17 +42,18 @@ async def agent_start(translator):
                 tool_call = msg.content
                 if "tool_name" in tool_call and "parameters" in tool_call:
                     tool_call = json.loads(extract_json_block(tool_call))
-                    result = call_tool(tool_call["tool_name"], tool_call["parameters"])
-                    print(f"return code: {result['returncode']}")
-                    if len(result['stderr']):
-                        print(f"stderr: {result['stderr']}")
-                    if len(result['stdout']):
-                        print(f"stdout: {result['stdout']}")
-                    print("🤖", "done")
+                    # print(tool_call)
+                    raw_result = await call_tool(tool_call["tool_name"], tool_call["parameters"])
+                    result = await agent.run(
+                        ChatMessage(role="system", content=CLEAN+str(raw_result)).encode(),
+                        stream=False
+                         )
+                    result = ChatMessage.decode(result)
+                    print("🤖 ", result.content)
 
                     memo.add(user_input, json.dumps({
                         "tool_name": tool_call["tool_name"],
-                        "result": result
+                        "result": result.content
                     }, ensure_ascii=False))
 
                 else:
@@ -60,13 +62,12 @@ async def agent_start(translator):
 
             except json.JSONDecodeError:
                 memo.add(user_input, msg.content)
-            except Exception as e:
-                print("🤖", e)
+
 
 
 async def main():
     set_stderr_logger()
-    translator = build_agent(MODEL)
+    translator = await build_agent(MODEL)
     await agent_start(translator)
 
 
