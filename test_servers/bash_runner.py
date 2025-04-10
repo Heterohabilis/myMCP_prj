@@ -3,16 +3,12 @@ import subprocess
 
 app = Flask(__name__)
 PORT = 1510
-DESCRIPTION = ("Accepts user intent and runs bash commands accordingly. "
-               "The model should analyze the user's request, "
-               "identify the most appropriate bash solution "
-               "(possibly from multiple options), and return one complete,"
-               " executable, multi-line bash script string inside the 'commands' field. "
-               "The script must not include any 'sudo' commands, "
-               "and must be syntactically valid and ready to execute in a non-root environment. "
-               "Commands should be separated by line breaks if multiple lines are needed."
-               "Uses heredoc (cat <<EOF > filename) to write source code when needed"
-               )
+DESCRIPTION = '''Generate a valid bash script that solves the user’s task.  
+- Do not use 'sudo' or any root-only commands; 
+- Use heredoc (cat <<EOF > file) to write source code if needed.  
+- Return your response as plain bash commands, separated by newlines.  
+- The output should be directly executable in a non-root Unix environment.  
+'''
 
 
 @app.route("/manifest", methods=["GET"])

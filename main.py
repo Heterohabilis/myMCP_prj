@@ -3,13 +3,15 @@ import json
 import sys
 import os
 
-from agent.prompt import CLEAN
+from agent.prompt import CLEAN, get_system_prompt
 from mcp_com.communication import call_tool
 from utils.json_cleaner import extract_json_block
 from utils.ring_memo import naive_memo
+from utils.should_beautify import should_summarize
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-MODEL = "deepseek-chat"
+MAIN_MODEL = "deepseek-chat"
+CLEANER_MODEL = "gpt-4o-mini"
 
 from coagent.agents import ChatMessage
 from coagent.core import set_stderr_logger
@@ -19,17 +21,19 @@ from agent.model_router import build_agent
 
 
 async def agent_start(agent):
+    # init the memo
     memo = naive_memo(n=50)
+    cleaner_agent = await build_agent(CLEANER_MODEL, CLEAN)
     print("Agent is ready; input 'exit' to quit")
 
     async with LocalRuntime() as runtime:
         await runtime.register(agent)
+        await runtime.register(cleaner_agent)
         while True:
             user_input = input("You：").strip()
             if user_input.lower() in {"exit", "quit"}:
                 print("👋 Bye！")
                 break
-
 
             context_prompt = str(memo) + "\nuser: " + user_input
             response = await agent.run(
@@ -44,16 +48,24 @@ async def agent_start(agent):
                     tool_call = json.loads(extract_json_block(tool_call))
                     # print(tool_call)
                     raw_result = await call_tool(tool_call["tool_name"], tool_call["parameters"])
-                    result = await agent.run(
-                        ChatMessage(role="system", content=CLEAN+str(raw_result)).encode(),
-                        stream=False
-                         )
-                    result = ChatMessage.decode(result)
-                    print("🤖 ", result.content)
+                    raw_result = str(raw_result)
+
+                    if should_summarize(raw_result):
+                        result = await cleaner_agent.run(
+                            ChatMessage(role="system", content="user: "+user_input+
+                                                               "\nguide: "+"\n raw: "+
+                                                               CLEAN+raw_result).encode(),
+                            stream=False
+                             )
+                        result = (ChatMessage.decode(result)).content
+                    else:
+                        result = raw_result
+
+                    print("🤖 ", result)
 
                     memo.add(user_input, json.dumps({
                         "tool_name": tool_call["tool_name"],
-                        "result": result.content
+                        "result": result
                     }, ensure_ascii=False))
 
                 else:
@@ -67,7 +79,8 @@ async def agent_start(agent):
 
 async def main():
     set_stderr_logger()
-    translator = await build_agent(MODEL)
+    main_agent_prompt = await get_system_prompt()
+    translator = await build_agent(MAIN_MODEL, main_agent_prompt)
     await agent_start(translator)
 
 
