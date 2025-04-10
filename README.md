@@ -1,6 +1,6 @@
 # 🐢 Lazy Terminal
 
-**Lazy Terminal** is an intelligent command-line assistant that connects language models with external tools through MCP (Modular Component Protocol). It dynamically determines whether a query should be directly answered or passed to a registered tool, enabling seamless terminal automation and smart interaction.
+**Lazy Terminal** is an intelligent command-line assistant that connects language models with external tools through MCP (Modular Component Protocol). It dynamically determines whether a query should be directly answered or passed to a registered tool, enabling seamless terminal automation and smart interaction (you are lazy; it isn't).
 
 ---
 
