@@ -86,6 +86,7 @@ Ensure they match your settings in `models.yaml`.
 - [ ] Add interactive UI (terminal/web).
 - [ ] Enhance error handling and logging.
 - [ ] Extend toolset (e.g., file handling, browser automation).
+- [ ] Multi-tool calling
 
 ---
 
