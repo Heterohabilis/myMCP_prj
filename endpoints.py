@@ -20,7 +20,7 @@ from agent.model_router import build_agent
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-MAIN_MODEL = "gpt-4o"
+MAIN_MODEL = "deepseek-chat"
 CLEANER_MODEL = "gpt-4o-mini"
 
 app = FastAPI()
