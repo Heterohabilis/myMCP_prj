@@ -22,12 +22,12 @@ TOOLS = ""
 
 CLEAN = """
 - based on the previous question and the raw response, extract useful info and make it readable:
-ex.1: {field_1: val1, field_2: val2, field_3: val3, ...}
+ex.1: {<field_1>: val1, <field_2>: val2, <field_3>: val3, ...}
 You should output: '
-field_1 : val1 or "N/A"
-field_2 : val2 or "N/A"
-field_3 : val3 or "N/A"
-field_3 : val3 or "N/A"
+<field_1> : val1 or "N/A"
+<field_2> : val2 or "N/A"
+<field_3> : val3 or "N/A"
+<field_3> : val3 or "N/A"
 ...
 '
 if there is a return value, explain it like: the process finished with / with no error

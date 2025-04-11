@@ -3,11 +3,12 @@ import subprocess
 
 app = Flask(__name__)
 PORT = 1510
-DESCRIPTION = '''Generate a valid bash script that solves the user’s task.  
+DESCRIPTION = '''[Generate a valid bash script] that solves the user’s task.  
 - Do not use 'sudo' or any root-only commands; 
 - Use heredoc (cat <<EOF > file) to write source code if needed.  
 - Return your response as plain bash commands, separated by newlines.  
 - The output should be directly executable in a non-root Unix environment.  
+example: open an application, write code, find files...
 '''
 
 

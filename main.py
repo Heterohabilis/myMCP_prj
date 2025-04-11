@@ -10,7 +10,7 @@ from utils.ring_memo import naive_memo
 from utils.should_beautify import should_summarize
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-MAIN_MODEL = "deepseek-chat"
+MAIN_MODEL = "gpt-4o"
 CLEANER_MODEL = "gpt-4o-mini"
 
 from coagent.agents import ChatMessage
