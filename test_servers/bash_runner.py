@@ -9,7 +9,7 @@ DESCRIPTION = '''[Generate a valid bash script] that solves the user’s task.
 - Return your response as plain bash commands, separated by newlines.  
 - when open an application, just use the correct name, ex: $ google-chrome
 - The output should be directly executable in a non-root Unix environment.  
-example: open an application, write code, find files...
+example: open an application, write code, find files.
 '''
 
 
