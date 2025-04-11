@@ -80,8 +80,8 @@ async def agent_start(agent):
 async def main():
     set_stderr_logger()
     main_agent_prompt = await get_system_prompt()
-    translator = await build_agent(MAIN_MODEL, main_agent_prompt)
-    await agent_start(translator)
+    main_agent = await build_agent(MAIN_MODEL, main_agent_prompt)
+    await agent_start(main_agent)
 
 
 
