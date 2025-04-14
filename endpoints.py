@@ -83,20 +83,27 @@ async def run_llmos(request: Request):
             raw_result = str(raw_result)
 
             # clean the result
-            summary_input = (
-                "user: " + user_input + "\n"
-                "guide: \n raw: " + CLEAN + raw_result
-            )
-            result = await cleaner_agent.run(
-                ChatMessage(role="system", content=summary_input).encode(),
-                stream=False
-            )
-            result = ChatMessage.decode(result).content
+            try:
+                summary_input = (
+                    "user: " + user_input + "\n"
+                    "guide: \n raw: " + CLEAN + raw_result
+                )
+                result = await cleaner_agent.run(
+                    ChatMessage(role="system", content=summary_input).encode(),
+                    stream=False
+                )
+                result = ChatMessage.decode(result).content
 
-            memo.add(user_input, json.dumps({
-                "tool_name": tool_call["tool_name"],
-                "result": result
-            }, ensure_ascii=False))
+                memo.add(user_input, json.dumps({
+                    "tool_name": tool_call["tool_name"],
+                    "result": result
+                }, ensure_ascii=False))
+            except Exception as e:
+                result = raw_result
+                memo.add(user_input, json.dumps({
+                    "tool_name": tool_call["tool_name"],
+                    "result": result
+                }, ensure_ascii=False))
 
         else:
             result = msg.content

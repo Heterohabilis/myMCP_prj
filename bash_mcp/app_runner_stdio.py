@@ -6,6 +6,9 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
 
+with open("bash_mcp/prompts/app_runner.pmt", 'r') as f:
+    DESCRIPTION = f.read()
+
 class AppRunner:
     def launch_app(self, command: str) -> dict:
         """
@@ -37,10 +40,7 @@ async def serve() -> None:
         return [
             Tool(
                 name="launch_app",
-                description="Launch a GUI application or long-running program using Popen. "
-                            "Supports Wayland and X11 (via DISPLAY or WAYLAND_DISPLAY). "
-                            "Returns the process ID (PID) of the launched application."
-                            "You are not to start a terminal with this server!",
+                description=DESCRIPTION,
                 inputSchema={
                     "type": "object",
                     "properties": {
