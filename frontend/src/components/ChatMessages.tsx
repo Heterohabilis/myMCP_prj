@@ -3,8 +3,8 @@ import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import 'highlight.js/styles/github.css'; // 可按需选择代码高亮样式
-import 'katex/dist/katex.min.css'; // KaTeX 数学公式样式
+import 'highlight.js/styles/github.css';
+import 'katex/dist/katex.min.css';
 import { BotIcon, UserIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
