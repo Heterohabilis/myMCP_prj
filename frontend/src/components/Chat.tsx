@@ -10,7 +10,6 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // ✅ 新增：调用后端 API 的异步函数
   const fetchAIResponse = async (prompt: string): Promise<string> => {
     try {
       const res = await fetch('http://localhost:8000/api/run', {
@@ -23,15 +22,14 @@ const Chat = () => {
       return data.output || '[Empty response]';
     } catch (error) {
       toast({
-        title: '请求失败',
-        description: '后端服务无法访问或返回异常',
+        title: 'request failed',
+        description: 'backend failed',
         variant: 'destructive',
       });
       return '[Error fetching response]';
     }
   };
 
-  // ✅ 替换原来的 handleSendMessage
   const handleSendMessage = async (content: string) => {
     const userMessage: Message = {
       id: uuidv4(),
