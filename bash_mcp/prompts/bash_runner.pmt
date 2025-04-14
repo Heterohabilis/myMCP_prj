@@ -6,7 +6,7 @@
 When the user requests to "open terminal":
 1. Automatically select the run_bash_script tool
 2. Generate a platform-independent launch command:
-   - Linux: /usr/bin/xterm or gnome-terminal
+   - Linux: gnome-terminal
    - macOS: /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
    - WSL: /mnt/c/Windows/system32/cmd.exe /c start wt
 3. Must add environment initialization:
