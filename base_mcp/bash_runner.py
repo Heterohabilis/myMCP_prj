@@ -4,7 +4,7 @@ import subprocess
 app = Flask(__name__)
 PORT = 1510
 
-with open("bash_mcp/prompts/bash_runner.pmt", 'r') as f:
+with open("base_mcp/prompts/bash_runner.pmt", 'r') as f:
     DESCRIPTION = f.read()
 
 @app.route("/manifest", methods=["GET"])

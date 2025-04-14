@@ -77,6 +77,7 @@ async def run_llmos(request: Request):
 
     try:
         tool_call = msg.content
+        print(tool_call)
         if "tool_name" in tool_call and "parameters" in tool_call:
             tool_call = json.loads(extract_json_block(tool_call))
             raw_result = await call_tool(tool_call["tool_name"], tool_call["parameters"])

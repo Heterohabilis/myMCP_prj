@@ -6,7 +6,7 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
 
-with open("bash_mcp/prompts/app_runner.pmt", 'r') as f:
+with open("base_mcp/prompts/app_runner.pmt", 'r') as f:
     DESCRIPTION = f.read()
 
 class AppRunner:
@@ -21,7 +21,9 @@ class AppRunner:
         if "WAYLAND_DISPLAY" not in env and "DISPLAY" not in env:
             env["DISPLAY"] = ":0"
 
-        process = subprocess.Popen(command.split(), env=env,
+        print(command.split())
+        process = subprocess.Popen(command, shell = True,
+                                   env=env,
                                    stdout=subprocess.DEVNULL,
                                    stderr=subprocess.DEVNULL,
                                    stdin=subprocess.DEVNULL,
