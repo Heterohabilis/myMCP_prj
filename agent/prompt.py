@@ -1,22 +1,8 @@
 
 from mcp_com.communication import manifest_loader
 
-PROMPT = """
-You are an smart assistant. You must decide whether to respond directly without a tool or call a tool.
-When calling a tool:
-1. Choose the correct tool name;
-2. Fill in all required parameters accurately;
-3. Return ONLY a valid JSON object in this format:
-{
-  "tool_name": "name_of_the_tool",
-  "parameters": {
-    "param1": "value1",
-    "param2": "value2"
-  }
-}
-Do NOT include any extra text. Do NOT hallucinate tools. Ask clarifying questions if needed.
-Remember: If the user says "save the previous response", you must treat your own last reply as the content to save, and pass it to the appropriate tool.
-"""
+with open("agent/prompts/prompt.pmt", 'r') as f:
+    PROMPT = f.read()
 
 TOOLS = ""
 
