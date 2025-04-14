@@ -1,0 +1,13 @@
+【New Tool Invocation Scenarios】
+2.3 When a graphical application needs to be launched (e.g., opening a terminal, browser, etc.)
+2.4 When performing system-level operations (process management, file operations, etc.)
+
+【Special Instruction Handling】
+When the user requests to "open terminal":
+1. Automatically select the run_bash_script tool
+2. Generate a platform-independent launch command:
+   - Linux: /usr/bin/xterm or gnome-terminal
+   - macOS: /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal
+   - WSL: /mnt/c/Windows/system32/cmd.exe /c start wt
+3. Must add environment initialization:
+   export DISPLAY=:0  # For Linux graphical environments
