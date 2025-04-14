@@ -1,5 +1,7 @@
-
 import React, { useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
+import rehypeHighlight from 'rehype-highlight';
+import 'highlight.js/styles/github.css'; // 可按需选择样式
 import { BotIcon, UserIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -22,7 +24,7 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // If no messages, show welcome message
+  // 如果没有消息，显示欢迎信息
   if (messages.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-6 text-center">
@@ -51,16 +53,18 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
               <BotIcon className="h-4 w-4 text-secondary-foreground" />
             </div>
           )}
-          
+
           <div
             className={cn({
               "user-bubble": message.role === "user",
               "assistant-bubble": message.role === "assistant",
             })}
           >
-            {message.content}
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {message.content}
+            </ReactMarkdown>
           </div>
-          
+
           {message.role === "user" && (
             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
               <UserIcon className="h-4 w-4 text-primary-foreground" />
@@ -68,7 +72,7 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
           )}
         </div>
       ))}
-      
+
       {isLoading && (
         <div className="flex items-start gap-3">
           <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
@@ -77,13 +81,19 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
           <div className="assistant-bubble">
             <div className="flex space-x-2">
               <div className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse" />
-              <div className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse" style={{ animationDelay: "0.2s" }} />
-              <div className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse" style={{ animationDelay: "0.4s" }} />
+              <div
+                className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse"
+                style={{ animationDelay: "0.2s" }}
+              />
+              <div
+                className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse"
+                style={{ animationDelay: "0.4s" }}
+              />
             </div>
           </div>
         </div>
       )}
-      
+
       <div ref={messagesEndRef} />
     </div>
   );
