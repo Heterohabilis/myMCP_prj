@@ -35,6 +35,13 @@ Launch the assistant with:
 python main.py
 ```
 
+For GUI, use:
+
+```bash
+make backend
+cd frontend && npm run dev
+```
+
 Start interacting with Lazy Terminal directly from your console!
 
 ---
