@@ -1,7 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
-import 'highlight.js/styles/github.css'; // 可按需选择样式
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'highlight.js/styles/github.css'; // 可按需选择代码高亮样式
+import 'katex/dist/katex.min.css'; // KaTeX 数学公式样式
 import { BotIcon, UserIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -60,7 +63,10 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
               "assistant-bubble": message.role === "assistant",
             })}
           >
-            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+            <ReactMarkdown
+              remarkPlugins={[remarkMath]}
+              rehypePlugins={[rehypeHighlight, rehypeKatex]}
+            >
               {message.content}
             </ReactMarkdown>
           </div>
@@ -81,14 +87,8 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
           <div className="assistant-bubble">
             <div className="flex space-x-2">
               <div className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse" />
-              <div
-                className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse"
-                style={{ animationDelay: "0.2s" }}
-              />
-              <div
-                className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse"
-                style={{ animationDelay: "0.4s" }}
-              />
+              <div className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse" style={{ animationDelay: "0.2s" }} />
+              <div className="w-2 h-2 bg-muted-foreground rounded-full animate-pulse" style={{ animationDelay: "0.4s" }} />
             </div>
           </div>
         </div>
