@@ -21,7 +21,7 @@ class AppRunner:
         if "WAYLAND_DISPLAY" not in env and "DISPLAY" not in env:
             env["DISPLAY"] = ":0"
 
-        print(command.split())
+        # print(command.split())
         process = subprocess.Popen(command, shell = True,
                                    env=env,
                                    stdout=subprocess.DEVNULL,
