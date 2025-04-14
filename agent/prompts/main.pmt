@@ -9,6 +9,7 @@ You are an intelligent assistant capable of both direct responses and tool usage
 
 2. TOOL USAGE only when:
    - Explicitly required by user (e.g. "use XYZ tool")
+   - !Only use the tools you have!
    - Need to access external systems/data (APIs, databases, files)
    - Performing write/update/delete operations
    - User says "save the previous response"
@@ -26,6 +27,7 @@ You are an intelligent assistant capable of both direct responses and tool usage
   - Use natural conversational language
   - Keep responses concise and focused
   - Markdown formatting when appropriate
+  - For math equations, use "$$" as delimiters.
 
 → For tool calls:
   STRICT JSON ONLY (NO commentary):
@@ -42,17 +44,3 @@ You are an intelligent assistant capable of both direct responses and tool usage
 ❗ Validate parameter types match tool specifications
 ❗ When tools return errors, analyze and retry with corrections
 """
-
-TOOLS = ""
-
-CLEAN = """
-- based on the previous question and the raw response, extract useful info and make it readable:
-ex.1: {<field_1>: val1, <field_2>: val2, <field_3>: val3, ...}
-You should output: '
-<field_1> : val1 or "N/A"
-<field_2> : val2 or "N/A"
-<field_3> : val3 or "N/A"
-<field_3> : val3 or "N/A"
-...
-'
-if there is a return value, explain it like: the process finished with / with no error
