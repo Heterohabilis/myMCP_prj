@@ -22,6 +22,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 MAIN_MODEL = "deepseek-chat"
 CLEANER_MODEL = "gpt-4o-mini"
+MAIN = 'main'
+CLEANER = 'cleaner'
 
 app = FastAPI()
 memo = naive_memo(n=50)
@@ -44,8 +46,8 @@ async def startup_event():
     global main_agent, cleaner_agent, runtime
     set_stderr_logger()
     main_prompt = await get_system_prompt()
-    main_agent = await build_agent(MAIN_MODEL, main_prompt)
-    cleaner_agent = await build_agent(CLEANER_MODEL, CLEAN)
+    main_agent = await build_agent(MAIN_MODEL, main_prompt, MAIN)
+    cleaner_agent = await build_agent(CLEANER_MODEL, CLEAN, CLEANER)
     runtime = LocalRuntime()
     await runtime.__aenter__()
     await runtime.register(main_agent)
@@ -79,19 +81,18 @@ async def run_llmos(request: Request):
             tool_call = json.loads(extract_json_block(tool_call))
             raw_result = await call_tool(tool_call["tool_name"], tool_call["parameters"])
             raw_result = str(raw_result)
-            '''
-            if should_summarize(raw_result):
-                summary_input = (
-                    "user: " + user_input + "\n"
-                    "guide: \n raw: " + CLEAN + raw_result
-                )
-                result = await cleaner_agent.run(
-                    ChatMessage(role="system", content=summary_input).encode(),
-                    stream=False
-                )
-                result = ChatMessage.decode(result).content
-            else:'''
-            result = raw_result
+
+            # clean the result
+            summary_input = (
+                "user: " + user_input + "\n"
+                "guide: \n raw: " + CLEAN + raw_result
+            )
+            result = await cleaner_agent.run(
+                ChatMessage(role="system", content=summary_input).encode(),
+                stream=False
+            )
+            result = ChatMessage.decode(result).content
+
             memo.add(user_input, json.dumps({
                 "tool_name": tool_call["tool_name"],
                 "result": result
