@@ -40,3 +40,19 @@
 .read-the-docs {
   color: #888;
 }
+
+.markdown-content table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.markdown-content th,
+.markdown-content td {
+  border: 1px solid #363636;
+  padding: 8px;
+}
+
+.markdown-content th {
+  background-color: #000000;
+}
+

@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import rehypeHighlight from 'rehype-highlight';
 import remarkMath from 'remark-math';
+import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
+import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github.css';
 import 'katex/dist/katex.min.css';
 import { BotIcon, UserIcon } from 'lucide-react';
@@ -27,7 +28,7 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // 如果没有消息，显示欢迎信息
+
   if (messages.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full p-6 text-center">
@@ -64,8 +65,8 @@ const ChatMessages = ({ messages, isLoading }: ChatMessagesProps) => {
             })}
           >
             <ReactMarkdown
-              remarkPlugins={[remarkMath]}
-              rehypePlugins={[rehypeHighlight, rehypeKatex]}
+              remarkPlugins={[remarkGfm, remarkMath]}
+              rehypePlugins={[rehypeKatex, rehypeHighlight]}
             >
               {message.content}
             </ReactMarkdown>
