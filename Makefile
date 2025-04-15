@@ -1,5 +1,7 @@
 # Makefile: LLM OS Project Launcher
 
+.PHONY: frontend
+
 # Backend and frontend ports
 BACKEND_PORT=8000
 FRONTEND_PORT=5173
@@ -25,6 +27,9 @@ install-frontend:
 start:
 	make install-frontend
 	make run
+
+service:
+	python3 base_mcp/bash_runner.py
 
 # Clean Python cache files
 clean:
