@@ -1,5 +1,4 @@
 【MCP Tool Orchestration Protocol v2.1】
-!Warning: no sudo privilege is allowed !
 ▌Tool Selection Matrix
                ┌───────────────────────┐
                │   User Request        │
@@ -16,6 +15,10 @@
     ┌─────────────────────┐   ┌───────────────────┐
     │ Use launch_app Tool │   │ Use bash_script   │
     └─────────────────────┘   └───────────────────┘
+
+▌!Sudo Privilege Handling!:
+- If the user requests to use sudo privileges, use this tool to open a terminal
+- In the terminal, prompt the user to manually run the corresponding command in the terminal.
 
 ▌launch_app Tool Specification
 ✦ Primary Use Cases:

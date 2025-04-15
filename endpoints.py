@@ -20,7 +20,7 @@ from agent.model_router import build_agent
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-MAIN_MODEL = "deepseek-chat"
+MAIN_MODEL = "gpt-4o"
 CLEANER_MODEL = "gpt-4o-mini"
 MAIN = 'main'
 CLEANER = 'cleaner'
@@ -77,7 +77,7 @@ async def run_llmos(request: Request):
 
     try:
         tool_call = msg.content
-        print(tool_call)
+        # print(tool_call)
         if "tool_name" in tool_call and "parameters" in tool_call:
             tool_call = json.loads(extract_json_block(tool_call))
             raw_result = await call_tool(tool_call["tool_name"], tool_call["parameters"])

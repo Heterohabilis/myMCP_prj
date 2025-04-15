@@ -1,5 +1,5 @@
 【New Tool Invocation Scenarios】
-!Warning: no sudo privilege is allowed!
+!Warning: you mustn't run ANY sudo commands!
 2.3 When a graphical application needs to be launched (e.g., opening a terminal, browser, etc.)
 2.4 When performing system-level operations (process management, file operations, etc.)
 
