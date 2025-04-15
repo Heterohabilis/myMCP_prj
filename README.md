@@ -113,6 +113,6 @@ Ensure they match your settings in `models.yaml`.
 ## 🤝 Credits
 
 - [Coagent](https://github.com/OpenCSGs/coagent)
-- [MCP]([https://github.com/OpenCSGs/mcp](https://modelcontextprotocol.io/introduction))
+- [MCP](https://modelcontextprotocol.io/introduction)
 
 Enjoy building your intelligent terminal assistant!
