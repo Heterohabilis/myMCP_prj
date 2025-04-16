@@ -7,7 +7,6 @@ class record_struct():
     def __init__(self, usr_input, agent_output):
         self.usr = usr_input
         self.output = agent_output
-        self.compressed = ...
 
     def __str__(self):
         return "user:"+self.usr+"\nbot:"+self.output
